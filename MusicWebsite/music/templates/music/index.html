@@ -2,9 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Music Homepage</title>
 </head>
 <body>
+
+<ul>
+    {% for album in all_albums %}
+    <li><a href="/music/{{ album.id }}">{{ album.album_title }}</a></li>
+    {% endfor %}
+</ul>
 
 </body>
 </html>
