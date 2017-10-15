@@ -36,7 +36,7 @@ def index(request) :
     context = {"all_albums" : all_albums}
     return render(request , "music/index.html" , context)
 
-
+'''
 def detail(request , album_id) :
     try :
         album = Album.objects.get(pk=album_id)
@@ -44,4 +44,15 @@ def detail(request , album_id) :
     except Album.DoesNotExist :
         raise Http404("Album does not exist")
     return render(request , "music/detail.html" , context)
+'''
 
+def detail(request , album_id) :
+    try :
+        album = Album.objects.get(pk=album_id)
+        album_title = album.album_title
+        album_logo = album.album_logo
+        all_songs = album.song_set.all()
+        context = {"all_songs": all_songs , "album_title" : album_title , "album_logo" : album_logo}
+    except Album.DoesNotExist :
+        raise Http404("Album does not exist")
+    return render(request , "music/detail.html" , context)
