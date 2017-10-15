@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.http import Http404
 from .models import Album
 from django.template import loader
-from django.shortcuts import render
+from django.shortcuts import render , get_object_or_404
 
 # Create your views here.
 
@@ -37,14 +37,6 @@ def index(request) :
     return render(request , "music/index.html" , context)
 
 '''
-def detail(request , album_id) :
-    try :
-        album = Album.objects.get(pk=album_id)
-        context = {"album": album}
-    except Album.DoesNotExist :
-        raise Http404("Album does not exist")
-    return render(request , "music/detail.html" , context)
-'''
 
 def detail(request , album_id) :
     try :
@@ -55,4 +47,15 @@ def detail(request , album_id) :
         context = {"all_songs": all_songs , "album_title" : album_title , "album_logo" : album_logo}
     except Album.DoesNotExist :
         raise Http404("Album does not exist")
+    return render(request , "music/detail.html" , context)
+'''
+
+                    # OR
+
+def detail(request , album_id) :
+    album = get_object_or_404(Album , pk=album_id)
+    album_title = album.album_title
+    album_logo = album.album_logo
+    all_songs = album.song_set.all()
+    context = {"all_songs": all_songs , "album_title" : album_title , "album_logo" : album_logo}
     return render(request , "music/detail.html" , context)
