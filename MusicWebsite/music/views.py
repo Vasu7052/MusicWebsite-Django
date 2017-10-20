@@ -57,11 +57,14 @@ def detail(request , album_id) :
     album_title = album.album_title
     album_logo = album.album_logo
     all_songs = album.song_set.all()
-    context = {"all_songs": all_songs , "album_title" : album_title , "album_logo" : album_logo}
+    context = {"all_songs": all_songs , 'album': album , "album_title" : album_title , "album_logo" : album_logo}
     return render(request , "music/detail.html" , context)
 
 def favourite(request , album_id) :
     album = get_object_or_404(Album , pk=album_id)
+    album_title = album.album_title
+    album_logo = album.album_logo
+    all_songs = album.song_set.all()
     try:
         selected_song = album.song_set.get(pk=request.POST['song'])
     except (KeyError , Song.DoesNotExist) :
@@ -72,3 +75,4 @@ def favourite(request , album_id) :
     else:
         selected_song.is_favourite = True
         selected_song.save()
+        return render(request, "music/detail.html", {"all_songs": all_songs , 'album': album , "album_title" : album_title , "album_logo" : album_logo})
