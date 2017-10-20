@@ -40,6 +40,7 @@ th {
 
     <table>
         <tr>
+        <th>Choose</th>
         <th>Favourite</th>
         <th>ID</th>
         <th>Title</th>
@@ -49,6 +50,11 @@ th {
         {% for songs in all_songs %}
         <tr>
         <td><input type="radio" id="song{{ forloop.counter }}" value="{{ songs.id }}"></td>
+        {% if songs.is_favourite %}
+            <td>YES</td>
+        {% else %}
+            <td>NO</td>
+        {% endif %}
         <td>{{ songs.id }}</td>
         <td>{{ songs.song_title }}</td>
         <td>{{ songs.file_type }}</td>
@@ -56,6 +62,8 @@ th {
     {% endfor %}
 
     </table>
+
+    <input type="submit" value="Favourite" >
 
     </form>
 

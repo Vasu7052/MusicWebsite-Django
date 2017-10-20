@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.http import Http404
-from .models import Album
+from .models import Album , Song
 from django.template import loader
 from django.shortcuts import render , get_object_or_404
 
@@ -59,3 +59,16 @@ def detail(request , album_id) :
     all_songs = album.song_set.all()
     context = {"all_songs": all_songs , "album_title" : album_title , "album_logo" : album_logo}
     return render(request , "music/detail.html" , context)
+
+def favourite(request , album_id) :
+    album = get_object_or_404(Album , pk=album_id)
+    try:
+        selected_song = album.song_set.get(pk=request.POST['song'])
+    except (KeyError , Song.DoesNotExist) :
+        return render(request , "music/detail.html", {
+            'album' : album ,
+            'error_message' : "You did not selected any song" ,
+        })
+    else:
+        selected_song.is_favourite = True
+        selected_song.save()
