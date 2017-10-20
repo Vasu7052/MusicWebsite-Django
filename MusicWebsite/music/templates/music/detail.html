@@ -25,12 +25,22 @@ th {
 <body>
 
     <img src="{{ album_logo }}" height="250" width="250">
+
+    {% if error_message %}
+        <p>{{ error_message }}</p>
+    {% endif %}
+
     {% if all_songs %}
 
     <h1>Songs present in {{ album_title }} </h1>
 
+    <form action="{% url 'music:favourite' album.id %}" method="post">
+
+    {% csrf_token %}
+
     <table>
         <tr>
+        <th>Favourite</th>
         <th>ID</th>
         <th>Title</th>
         <th>File Type</th>
@@ -38,6 +48,7 @@ th {
 
         {% for songs in all_songs %}
         <tr>
+        <td><input type="radio" id="song{{ forloop.counter }}" value="{{ songs.id }}"></td>
         <td>{{ songs.id }}</td>
         <td>{{ songs.song_title }}</td>
         <td>{{ songs.file_type }}</td>
@@ -45,6 +56,9 @@ th {
     {% endfor %}
 
     </table>
+
+    </form>
+
     {% else %}
     <h2>No Songs Present</h2>
     {% endif %}
