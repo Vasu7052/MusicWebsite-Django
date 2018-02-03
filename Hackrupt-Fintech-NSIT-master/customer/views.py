@@ -9,7 +9,6 @@ from .serializers import CustomerSerializer
 
 # Create your views here.
 
-
 # List all artists or create a new one
 #predict/
 class CustomerList(APIView) :
