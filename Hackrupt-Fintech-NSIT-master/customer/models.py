@@ -8,4 +8,4 @@ class Customer(models.Model):
     customer_name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.customer_name
+        return self.customer_name   
